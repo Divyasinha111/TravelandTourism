@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour and Travel Booking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('bookingdivya.jpg'); /* Add background image */
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.9); /* Add background color with transparency */
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3; /* Change button color on hover */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Book Your Tour</h1>
+    <form id="bookingForm">
+      <div class="form-group">
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination" placeholder="Enter Destination" required>
+      </div>
+      <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div class="form-group">
+        <label for="adults">Adults:</label>
+        <input type="number" id="adults" name="adults" min="1" max="10" required>
+      </div>
+      <div class="form-group">
+        <label for="children">Children:</label>
+        <input type="number" id="children" name="children" min="0" max="10" required>
+      </div>
+      <div class="form-group">
+        <label for="tour-type">Tour Type:</label>
+        <select id="tour-type" name="tourType" required>
+          <option value="">Select Tour Type</option>
+          <option value="Sightseeing">Sightseeing</option>
+          <option value="Adventure">Adventure</option>
+          <option value="Cultural">Cultural</option>
+          <option value="Beach">Beach</option>
+          <option value="Wildlife">Wildlife</option>
+        </select>
+      </div>
+      
+      <button type="submit">Book Now</button>
+    </form>
+  </div>
+  <script>
+    document.getElementById("bookingForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+    
+      const formData = new FormData(this);
+    
+      // Convert formData to JSON object
+      const jsonData = {};
+      formData.forEach((value, key) => {
+        jsonData[key] = value;
+      });
+    
+      // Send data to server
+      fetch("/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(jsonData)
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
+      })
+      .then(data => {
+        // Handle success response
+        console.log(data);
+        alert("Tour booked successfully!");
+      })
+      .catch(error => {
+        // Handle error
+        console.error("Error:", error);
+        alert("An error occurred while booking the tour.");
+      });
+    });
+    
+  </script>
+</body>
+</html>

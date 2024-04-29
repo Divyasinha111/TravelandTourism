@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTML Form</title>
+        <style>
+            body {
+                width: 100%;
+	height: 90vh;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url(sign2.jpg);
+	background-position: center;
+	background-size: cover;
+            }
+
+            form {
+                width: 400px;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px
+                    rgba(0, 0, 0, 0.1);
+            }
+
+            fieldset {
+                border: 1px solid black;
+                padding: 10px;
+                margin: 0;
+            }
+
+            legend {
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="password"],
+            textarea,
+            input[type="date"] {
+                width: calc(100% - 20px);
+                padding: 8px;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            input[type="radio"] {
+                margin-left: 20px;
+            }
+
+            input[type="submit"] {
+                padding: 10px 20px;
+
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <form>
+            <fieldset>
+                <legend>
+                    User personal information
+                </legend>
+                <label
+                    >Enter your full name</label
+                >
+                <input type="text" name="name" id="name" />
+                <label>Enter your email</label>
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                />
+                <label>Enter your password</label>
+                <input
+                    type="password"
+                    name="pass"
+                    id="password"
+                />
+                <label
+                    >Confirm your password</label
+                >
+                <input
+                    type="password"
+                    name="confirmPass"
+                />
+                <label>Enter your gender</label>
+                <input
+                    type="radio"
+                    name="gender"
+                    value="male"
+                />Male
+                <input
+                    type="radio"
+                    name="gender"
+                    value="female"
+                />Female
+                <label
+                    >Enter your Date of
+                    Birth</label
+                >
+                <input type="date" name="dob" />
+                <label>Enter your Address:</label>
+                <textarea
+                    name="address"
+                ></textarea>
+                <button type="button"  onclick="signup(event)">Sign Up</button>
+            </fieldset>
+        </form>
+        <script>
+            function signup(event) {
+              event.preventDefault(); // Prevent form submission
+              // Get form data
+              const name = document.getElementById("name").value;
+              const email = document.getElementById("email").value;
+              const password = document.getElementById("password").value;  
+              // Send POST request to Node.js server using Fetch API
+              fetch("/sign", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ name, email, password }),
+              })
+                .then((response) => response.json()) // Parse response body as JSON
+                .then((data) => {
+                  if (data.success) {
+                    // Handle successful signup
+                    
+                    console.log("Signup successful");
+                    alert("Signup successful. You can now login.");
+                    // Redirect to login page or perform other actions
+                    window.location.href="/login";
+                  } else {
+                    console.error("Signup failed:", data.message);
+                    // Display error message or perform other actions
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error:", error);
+                });
+            }
+          </script>
+    </body>
+</html>
