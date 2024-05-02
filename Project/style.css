@@ -49,7 +49,8 @@
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	background-image: linear-gradient(rgba(0,0,0,0.50),rgba(0,0,0,0.50)),url(bg header.jpg);
+	background-image: url(bg_header.jpg);
+
 	background-position: center;
 	background-size: cover;
 }
